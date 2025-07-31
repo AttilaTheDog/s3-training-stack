@@ -41,8 +41,8 @@ install -m 600 /dev/null letsencrypt/acme.json
 Bring up:
 
 ```bash
-docker compose up -d
-docker compose ps
+docker-compose up -d
+docker ps
 ```
 
 Test:
