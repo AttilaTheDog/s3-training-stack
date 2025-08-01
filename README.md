@@ -85,11 +85,6 @@ echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
 echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
 ```
 
-```bash
-mkdir -p data/minio01 letsencrypt
-install -m 600 /dev/null letsencrypt/acme.json
-```
-
 Bring up:
 
 ```bash
