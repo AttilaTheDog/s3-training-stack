@@ -3,8 +3,8 @@
 Multi-tenant or single-tenant **MinIO** object storage behind **Traefik** with **HTTPS** and host‑based routing.
 
 - Example single instance:
-  - S3: `https://training01.s3.demo.mylemans.online`
-  - Console: `https://console-training01.s3.demo.mylemans.online`
+  - S3: `https://training01.s3.domain.com`
+  - Console: `https://console-training01.s3.domain.com`
 
 ---
 
@@ -94,12 +94,11 @@ Bring up:
 
 ```bash
 docker-compose up -d
-docker ps
 ```
 
 Test:
-- Console → `https://${CONSOLE_HOST}`
-- S3 API → `https://${S3_HOST}`
+  - S3: `https://training01.s3.domain.com`
+  - Console: `https://console-training01.s3.domain.com`
 
 ---
 
