@@ -83,10 +83,14 @@ Populate the .env file for minio01, change 'adminuser' and 'ChangeMe-Long-Secret
 ```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
 echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
-echo "MINIO_HOST=training01.s3.domain.com" >> secrets/minio01.env
-echo "MINIO_CONSOLE_HOST=console-training01.s3.domain.com" >> secrets/minio01.env
-
 ```
+
+Edit the docker-compose.yml file to point to the correct dns record for "traefik.http.routers.minio01.rule=Host(**training01.s3.domain.com**)" and "traefik.http.routers.minio01-console.rule=Host(**console-training01.s3.domain.com**)"
+
+```bash
+nano docker-compose.yml
+```
+
 
 Bring up:
 
@@ -95,8 +99,8 @@ docker-compose up -d
 ```
 
 Test:
-  - S3: `https://training01.s3.domain.com`
-  - Console: `https://console-training01.s3.domain.com`
+  - S3: `https://training01.s3.domain.com` => This url will be used for connecting to your storage. 
+  - Console: `https://console-training01.s3.domain.com`  => This url will be used for the WebUI
 
 ---
 
