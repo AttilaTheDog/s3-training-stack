@@ -28,7 +28,7 @@ services:
 
   minio01:
     container_name: minio01
-    image: quay.io/minio/minio:latest
+    image: minio/minio
     command: server /data --console-address ":9001"
     env_file: [./secrets/minio01.env]
     volumes:
@@ -59,7 +59,7 @@ services:
       
   minio02:
     container_name: minio02
-    image: quay.io/minio/minio:latest
+    image: minio/minio
     command: server /data --console-address ":9001"
     env_file: [./secrets/minio02.env]
     volumes:
