@@ -46,12 +46,26 @@ sudo usermod -aG docker $USER
 
 ## 2) Single-instance quick start (dev)
 
+```bash
+git clone https://github.com/marcmylemans/s3-training-stack.git
+```
+
+```bash
+cd s3-training-stack/
+```
+
 Create secrets and `.env`:
 
 ```bash
 cp .env.example .env
+```
+
+```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
 echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
+```
+
+```bash
 mkdir -p data/minio01 letsencrypt
 install -m 600 /dev/null letsencrypt/acme.json
 ```
