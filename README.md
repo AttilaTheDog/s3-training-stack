@@ -10,6 +10,12 @@ Multi-tenant or single-tenant **MinIO** object storage behind **Traefik** with *
 
 ## 1) Prerequisites (Ubuntu Server 22.04/24.04)
 
+Update Your Packages
+
+```bash
+apt update && apt upgrade -y
+```
+
 Install Docker & Docker Compose
 
 ```bash
