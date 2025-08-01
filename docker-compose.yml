@@ -48,7 +48,6 @@ services:
       - "traefik.http.routers.minio01-console.tls.certresolver=letsencrypt"
       - "traefik.http.services.minio01-console.loadbalancer.server.port=9001"
       - "traefik.http.routers.minio01-console.service=minio01-console"
-      
 
 networks:
   web:
