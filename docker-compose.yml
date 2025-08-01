@@ -26,67 +26,29 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-  minio01:
-    container_name: minio01
-    image: minio/minio
-    command: server /data --console-address ":9001"
-    env_file: [./secrets/minio01.env]
-    volumes:
-      - ./data/minio01:/data
-    restart: unless-stopped
-    networks: [web]
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    labels:
-      - "traefik.enable=true"
-
-      # ---- S3 API (9000) ----
-      - "traefik.http.routers.minio01.rule=Host(`training01.s3.demo.mylemans.online`)"
-      - "traefik.http.routers.minio01.entrypoints=websecure"
-      - "traefik.http.routers.minio01.tls.certresolver=letsencrypt"
-      - "traefik.http.services.minio01.loadbalancer.server.port=9000"
-      - "traefik.http.routers.minio01.service=minio01"
-
-      # ---- Console (9001) ----
-      - "traefik.http.routers.minio01-console.rule=Host(`console-training01.s3.demo.mylemans.online`)"
-      - "traefik.http.routers.minio01-console.entrypoints=websecure"
-      - "traefik.http.routers.minio01-console.tls.certresolver=letsencrypt"
-      - "traefik.http.services.minio01-console.loadbalancer.server.port=9001"
-      - "traefik.http.routers.minio01-console.service=minio01-console"
+minio01:
+  container_name: minio01
+  image: minio/minio
+  command: server /data --console-address ":9001"
+  env_file:
+    - ./secrets/minio01.env
+  volumes:
+    - ./data/minio01:/data
+  restart: unless-stopped
+  networks: [web]
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.minio01.rule=Host(`$" + "{MINIO_HOST}" + "`)"
+    - "traefik.http.routers.minio01.entrypoints=websecure"
+    - "traefik.http.routers.minio01.tls.certresolver=letsencrypt"
+    - "traefik.http.services.minio01.loadbalancer.server.port=9000"
+    - "traefik.http.routers.minio01.service=minio01"
+    - "traefik.http.routers.minio01-console.rule=Host(`$" + "{MINIO_CONSOLE_HOST}" + "`)"
+    - "traefik.http.routers.minio01-console.entrypoints=websecure"
+    - "traefik.http.routers.minio01-console.tls.certresolver=letsencrypt"
+    - "traefik.http.services.minio01-console.loadbalancer.server.port=9001"
+    - "traefik.http.routers.minio01-console.service=minio01-console"
       
-  minio02:
-    container_name: minio02
-    image: minio/minio
-    command: server /data --console-address ":9001"
-    env_file: [./secrets/minio02.env]
-    volumes:
-      - ./data/minio02:/data
-    restart: unless-stopped
-    networks: [web]
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    labels:
-      - "traefik.enable=true"
-
-      # ---- S3 API (9000) ----
-      - "traefik.http.routers.minio02.rule=Host(`training02.s3.demo.mylemans.online`)"
-      - "traefik.http.routers.minio02.entrypoints=websecure"
-      - "traefik.http.routers.minio02.tls.certresolver=letsencrypt"
-      - "traefik.http.services.minio02.loadbalancer.server.port=9000"
-      - "traefik.http.routers.minio02.service=minio02"
-
-      # ---- Console (9001) ----
-      - "traefik.http.routers.minio02-console.rule=Host(`console-training02.s3.demo.mylemans.online`)"
-      - "traefik.http.routers.minio02-console.entrypoints=websecure"
-      - "traefik.http.routers.minio02-console.tls.certresolver=letsencrypt"
-      - "traefik.http.services.minio02-console.loadbalancer.server.port=9001"
-      - "traefik.http.routers.minio02-console.service=minio02-console"
 
 networks:
   web:
