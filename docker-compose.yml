@@ -38,12 +38,12 @@ services:
     networks: [web]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.minio01.rule=Host(training01.s3.domain.com)"
+      - "traefik.http.routers.minio01.rule=Host('training01.s3.domain.com')"
       - "traefik.http.routers.minio01.entrypoints=websecure"
       - "traefik.http.routers.minio01.tls.certresolver=letsencrypt"
       - "traefik.http.services.minio01.loadbalancer.server.port=9000"
       - "traefik.http.routers.minio01.service=minio01"
-      - "traefik.http.routers.minio01-console.rule=Host(console-training01.s3.domain.com)"
+      - "traefik.http.routers.minio01-console.rule=Host('console-training01.s3.domain.com')"
       - "traefik.http.routers.minio01-console.entrypoints=websecure"
       - "traefik.http.routers.minio01-console.tls.certresolver=letsencrypt"
       - "traefik.http.services.minio01-console.loadbalancer.server.port=9001"
