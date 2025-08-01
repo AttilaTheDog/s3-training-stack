@@ -78,7 +78,7 @@ Create a secrets directory for the .env files for each MinIO instance
 mkdir secrets
 ```
 
-Populate the .env file for minio01
+Populate the .env file for minio01, change 'adminuser' and 'ChangeMe-Long-Secret' to a unique username and password.
 
 ```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
