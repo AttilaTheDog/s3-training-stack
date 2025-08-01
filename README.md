@@ -72,6 +72,14 @@ nano .env
 ```
 Save the changes with ctrl+x
 
+Create a secrets directory for the .env files for each MinIO instance
+
+```bash
+mkdir secrets
+```
+
+Populate the .env file for minio01
+
 ```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
 echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
