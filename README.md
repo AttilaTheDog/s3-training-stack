@@ -10,21 +10,39 @@ Multi-tenant or single-tenant **MinIO** object storage behind **Traefik** with *
 
 ## 1) Prerequisites (Ubuntu Server 22.04/24.04)
 
-```bash
-# Install Docker (if needed)
-curl -fsSL https://get.docker.com | sudo sh
-sudo usermod -aG docker $USER
-newgrp docker
+Install Docker & Docker Compose
 
-# Ensure docker compose v2
-docker compose version || { sudo apt-get update -y && sudo apt-get install -y docker-compose-plugin; }
+```bash
+apt install docker.io docker-compose -y
+```
+Enable the Docker Service
+
+```bash
+systemctl enable docker
+```
+Start the Docker Service
+
+```bash
+systemctl start docker
+```
+Optionally create another user then root and add the user to the docker group, this way you don't have to run docker with sudo
+
+```bash
+newgrp docker
 ```
 
-**DNS (Cloudflare):**
-- Create **A record** for `*.s3.demo.mylemans.online` to your server IP.
-- Set to **DNS‑Only (grey cloud)** so Let's Encrypt HTTP‑01 works.
+```bash
+sudo usermod -aG docker $USER
+```
+
+**DNS:**
+- Create an **A record** for example `*.s3.domain.com` to your server IP.
+  the *. will act as a wildcard if you want to create multiple instances pointing to the same server IP.
+- Set to **DNS‑Only (grey cloud)** so Let's Encrypt HTTP‑01 works. (Cloudflare)
 
 ---
+
+
 
 ## 2) Single-instance quick start (dev)
 
@@ -104,7 +122,7 @@ If you already had data under `./data/minio01` on the root disk:
 
 ```bash
 cd /opt/minio-stack
-docker compose stop minio01
+docker-compose stop minio01
 
 sudo rsync -aH --info=progress2 ./data/minio01/ /mnt/minio/minio01/
 # Optionally keep a temporary backup:
