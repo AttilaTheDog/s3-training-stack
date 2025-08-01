@@ -83,6 +83,9 @@ Populate the .env file for minio01, change 'adminuser' and 'ChangeMe-Long-Secret
 ```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
 echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
+echo "MINIO_HOST=training01.s3.domain.com" >> secrets/minio01.env
+echo "MINIO_CONSOLE_HOST=console-training01.s3.domain.com" >> secrets/minio01.env
+
 ```
 
 Bring up:
@@ -176,18 +179,19 @@ minio01:
 ```
 
 **Multiple instances**
-```yaml
-minio02:
-  volumes:
-    - /mnt/minio/minio02:/data
-# repeat for minio03..minio15
+```Bash
+for i in $(seq -w 1 15); do
+  echo "MINIO_ROOT_USER=adminuser" > secrets/minio$i.env
+  echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio$i.env
+  echo "MINIO_HOST=training$i.s3.domain.com" >> secrets/minio$i.env
+  echo "MINIO_CONSOLE_HOST=console-training$i.s3.domain.com" >> secrets/minio$i.env
+done
+
 ```
 
 Bring the stack back up:
 ```bash
-cd /opt/minio-stack
-docker compose up -d
-docker compose ps
+docker-compose up -d
 ```
 
 Sanity checks:
@@ -197,91 +201,6 @@ df -h /mnt/minio
 sudo ls -lah /mnt/minio/minio01
 ```
 
----
-
-## 4) Multi-tenant rollout (15 instances on a fresh VM)
-
-Run the provisioning script (generates per‑instance credentials and a compose for 15 instances):
-
-```bash
-ACME_EMAIL=you@example.com BASE_DOMAIN=s3.demo.mylemans.online COUNT=15 \
-  sudo scripts/setup_minio_stack.sh
-```
-
-Secrets live in `/opt/minio-stack/secrets/minioNN.env`.
-
----
-
-## 5) Connect (AWS CLI / mc)
-
-```bash
-# AWS CLI
-aws --endpoint-url https://training01.s3.demo.mylemans.online s3 ls
-
-# MinIO client
-mc alias set training01 https://training01.s3.demo.mylemans.online ACCESS_KEY SECRET_KEY
-mc mb training01/mybucket
-mc ls training01
-```
-
----
-
-## 6) Operations
-
-```bash
-# Status
-docker compose ps
-docker ps --format "table {{.Names}}\t{{.Status}}"
-
-# Logs
-docker compose logs -f traefik
-docker compose logs -f minio01
-
-# Resource usage
-docker stats
-```
-
-**Enable Traefik dashboard (temporary):**
-Add to `traefik` service:
-```yaml
-command:
-  - --api.insecure=true
-ports:
-  - "8080:8080"
-```
-Open `http://<server-ip>:8080/dashboard/`.
-
----
-
-## 7) Troubleshooting
-
-- **404 on console URL**
-  - Cloudflare must be **grey cloud**.
-  - Check routers exist:
-    ```
-    docker compose logs traefik | egrep -i 'router|minio|error'
-    ```
-  - Ensure labels include explicit router→service mapping:
-    ```
-    traefik.http.routers.minio01.service=minio01
-    traefik.http.routers.minio01-console.service=minio01-console
-    ```
-
-- **Cert errors**
-  - Check ACME email and that port **80** is open.
-  - `docker compose logs traefik | egrep -i 'acme|letsencrypt|challenge'`.
-
-- **Health**
-  - `docker ps` should show `(healthy)` for `minio01`.
-
----
-
-## 8) Security/Hardening (next steps)
-- Create per‑tenant users & policies (`mc admin user add`, `mc admin policy set`).
-- Move data to dedicated disks/volumes.
-- For HA, migrate an instance to **MinIO distributed** mode across multiple disks/hosts.
-
----
 
 ## License
 MIT
