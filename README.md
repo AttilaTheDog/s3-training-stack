@@ -65,6 +65,12 @@ Create secrets and `.env`:
 ```bash
 cp .env.example .env
 ```
+Edit the .env file and change ACME_EMAIL and BASE_DOMAIN
+
+```bash
+nano .env
+```
+Save the changes with ctrl+x
 
 ```bash
 echo "MINIO_ROOT_USER=adminuser" > secrets/minio01.env
