@@ -12,7 +12,7 @@ Each MinIO instance is exposed via:
 ## 1. Prerequisites
 
 **OS**: Ubuntu 22.04 or 24.04  
-**DNS**: Cloudflare with wildcard A record
+**DNS**: Any with wildcard A record
 
 ### Install dependencies
 
@@ -35,7 +35,7 @@ On Cloudflare (or similar DNS provider):
 ## 2. Single-Instance Quick Start
 
 ```bash
-git clone https://github.com/marcmylemans/s3-training-stack.git
+git clone https://github.com/AttilaTheDog/s3-training-stack.git
 cd s3-training-stack
 cp .env.example .env
 nano .env     # Fill in ACME_EMAIL
