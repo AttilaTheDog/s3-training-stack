@@ -10,13 +10,13 @@ Your MinIO instance gives you an **S3‑compatible storage service** with a web 
 2. Go to your unique MinIO console URL:
 
    ```
-   https://console-<trainingID>.s3.demo.mylemans.online
+   https://console-<trainingID>.s3.mindrefined.de
    ```
 
    - Replace `<trainingID>` with your assigned number.  
      Example for **Training01**:
      ```
-     https://console-training01.s3.demo.mylemans.online
+     https://console-training01.s3.mindrefined.de
      ```
 
 ---
@@ -61,7 +61,7 @@ You should now see your bucket in the list.
 - To connect using S3-compatible tools (AWS CLI, `mc`, or backup software):
   - **S3 Endpoint:**  
     ```
-    https://<trainingID>.s3.demo.mylemans.online
+    https://<trainingID>.s3.mindrefined.de
     ```
   - **Access Key:** `MINIO_ROOT_USER`
   - **Secret Key:** `MINIO_ROOT_PASSWORD`
@@ -69,7 +69,7 @@ You should now see your bucket in the list.
 > Example: for training01  
 > Endpoint:  
 > ```
-> https://training01.s3.demo.mylemans.online
+> https://training01.s3.mindrefined.de
 > ```
 
 ---
@@ -79,7 +79,7 @@ You should now see your bucket in the list.
 1. [Install `mc`](https://min.io/docs/minio/linux/reference/minio-mc.html) (Linux, Mac, or Windows).
 2. Add your MinIO instance:
    ```bash
-   mc alias set myminio https://<trainingID>.s3.demo.mylemans.online MINIO_ROOT_USER MINIO_ROOT_PASSWORD
+   mc alias set myminio https://<trainingID>.s3.mindrefined.de MINIO_ROOT_USER MINIO_ROOT_PASSWORD
    ```
 3. List your buckets:
    ```bash
