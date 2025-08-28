@@ -10,11 +10,11 @@ package_upgrade: true
 runcmd:
   - systemctl enable --now docker
   - cd /opt
-  - git clone https://github.com/marcmylemans/s3-training-stack.git
+  - git clone https://github.com/AttilaTheDog/s3-training-stack.git
   - cd s3-training-stack
   - cp .env.example .env
   - sed -i 's/you@example.com/demo@.yourdomain.com/' .env
-  - sed -i 's/domain.com/yourdomain.com/' .env
+  - sed -i 's/domain.com/mindrefined.de/' .env
   - mkdir -p secrets
   - |
     for i in $(seq -w 1 15); do
@@ -23,7 +23,7 @@ runcmd:
     done
   - |
     for i in $(seq -w 1 15); do
-      sed -i "s|\`training$i.s3.domain.com\`|\`training$i.s3.demo.yourdomain.com\`|g" docker-compose-1-15.yml
-      sed -i "s|\`console-training$i.s3.domain.com\`|\`console-training$i.s3.yourdomain.com\`|g" docker-compose-1-15.yml
+      sed -i "s|\`training$i.s3.domain.com\`|\`training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
+      sed -i "s|\`console-training$i.s3.domain.com\`|\`console-training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
     done
   - docker-compose -f docker-compose-1-15.yml up -d
