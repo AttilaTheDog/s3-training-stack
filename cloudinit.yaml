@@ -19,7 +19,7 @@ runcmd:
   - |
     for i in $(seq -w 1 15); do
       echo "MINIO_ROOT_USER=adminuser" > secrets/minio$i.env
-      echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio$i.env
+      echo "MINIO_ROOT_PASSWORD=MR_Stu${i}@net${i}" >> secrets/minio$i.env
     done
   - |
     for i in $(seq -w 1 15); do
