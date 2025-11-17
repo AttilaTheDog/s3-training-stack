@@ -13,7 +13,7 @@ runcmd:
   - git clone https://github.com/AttilaTheDog/s3-training-stack.git
   - cd s3-training-stack
   - cp .env.example .env
-  - sed -i 's/you@example.com/demo@.yourdomain.com/' .env
+  - sed -i 's/you@example.com/rene@mindrefined.de/' .env
   - sed -i 's/domain.com/mindrefined.de/' .env
   - mkdir -p secrets
   - |
