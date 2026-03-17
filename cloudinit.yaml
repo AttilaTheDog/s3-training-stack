@@ -20,9 +20,12 @@ runcmd:
     for i in $(seq -w 1 15); do
       echo "MINIO_ROOT_USER=adminuser" > secrets/minio$i.env
       echo "MINIO_ROOT_PASSWORD=MR_Stu${i}@net${i}" >> secrets/minio$i.env
+      echo "MINIO_SERVER_URL=https://training${i}.s3.domain.com" >> secrets/minio$i.env
+      echo "MINIO_BROWSER_REDIRECT_URL=https://console-training${i}.s3.domain.com" >> secrets/minio$i.env
     done
   - |
     for i in $(seq -w 1 15); do
+      sed -i "s|domain.com|mindrefined.de|g" secrets/minio$i.env
       sed -i "s|\`training$i.s3.domain.com\`|\`training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
       sed -i "s|\`console-training$i.s3.domain.com\`|\`console-training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
     done
