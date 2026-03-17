@@ -9,6 +9,8 @@ Each MinIO instance is exposed via:
 
 ---
 
+# Self-Deployed Setup
+
 ## 1. Prerequisites
 
 **OS**: Ubuntu 22.04 or 24.04  
@@ -55,6 +57,9 @@ echo "MINIO_ROOT_PASSWORD=ChangeMe-Long-Secret" >> secrets/minio01.env
 
 ### Generate secrets
 
+For each instance, a secrets file is created containing the MinIO credentials and the URLs MinIO uses to construct its API and console addresses.
+Make sure to change the Password here when deploying!
+
 ```bash
 for i in $(seq -w 1 15); do
   echo "MINIO_ROOT_USER=adminuser" > secrets/minio${i}.env
@@ -86,7 +91,36 @@ Repeat for `training02`, `training03`, ... up to `training15`.
 
 ---
 
-## Troubleshooting
+# Deployment via cloudinit.yaml
+
+For deploying on a fresh cloud VM (e.g. Hetzner, DigitalOcean), the entire setup can be automated using the included cloudinit.yaml. On first boot,
+cloud-init will:
+
+  1. Install all required packages (Docker, git, fail2ban, ufw)
+  2. Clone this repository
+  3. Set the ACME email for Let's Encrypt
+  4. Generate a secrets file per MinIO instance with random passwords and the correct URLs
+  5. Replace the domain.com placeholders in all config files with the real domain
+  6. Start the full stack with docker-compose up -d
+
+## How to use
+
+Before deploying your VM, edit cloudinit.yaml and update these two lines with your values:
+
+  - sed -i 's/you@example.com/your@email.com/' .env
+  - sed -i 's/domain.com/yourdomain.com/' .env
+
+Then paste the contents of cloudinit.yaml into the User Data or cloudinit field of your cloud provider when creating the VM. No further steps are needed, the stack will be fully running once the VM has booted.
+
+## Retrieve credentials after deployment
+
+SSH into the server once and run:
+
+```bash
+bash /opt/s3-training-stack/scripts/show_credentials.sh
+```
+
+# Troubleshooting
 
 **Check logs:**
 
