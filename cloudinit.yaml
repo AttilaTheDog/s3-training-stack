@@ -18,8 +18,9 @@ runcmd:
   - mkdir -p secrets
   - |
     for i in $(seq -w 1 15); do
+      PASS=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12)
       echo "MINIO_ROOT_USER=adminuser" > secrets/minio$i.env
-      echo "MINIO_ROOT_PASSWORD=MR_Stu${i}@net${i}" >> secrets/minio$i.env
+      echo "MINIO_ROOT_PASSWORD=${PASS}" >> secrets/minio$i.env
       echo "MINIO_SERVER_URL=https://training${i}.s3.domain.com" >> secrets/minio$i.env
       echo "MINIO_BROWSER_REDIRECT_URL=https://console-training${i}.s3.domain.com" >> secrets/minio$i.env
     done
