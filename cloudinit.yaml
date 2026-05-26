@@ -29,4 +29,4 @@ runcmd:
       sed -i "s|\`training$i.s3.domain.com\`|\`training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
       sed -i "s|\`console-training$i.s3.domain.com\`|\`console-training$i.s3.mindrefined.de\`|g" docker-compose-1-15.yml
     done
-  - docker-compose -f docker-compose-1-15.yml up -d
+  - docker compose -f docker-compose-1-15.yml up -d
